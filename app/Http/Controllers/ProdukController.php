@@ -15,7 +15,8 @@ class ProdukController extends Controller
     public function index()
     {
         //
-        return Produk::all();
+        $result = Produk::all();
+        return view('produk',['produk'=>$result]);
     }
 
     /**
