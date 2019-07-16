@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Produk;
 use Illuminate\Http\Request;
+use DB;
 
 class ProdukController extends Controller
 {
@@ -19,6 +20,7 @@ class ProdukController extends Controller
         return view('produk',['produk'=>$result]);
     }
 
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -32,6 +34,7 @@ class ProdukController extends Controller
         $produk->harga_produk = $request->harga_produk;
         $produk->save();
 
+        return view('produk.create');
         return "Data berhasil dibuat";
     }
 
@@ -43,9 +46,13 @@ class ProdukController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $produk = new Produk;
+        $produk->nama_produk = $request->nama_produk;
+        $produk->harga_produk = $request->harga_produk;
+        $produk->save();
 
+        return view('create',['produk' => $produk]);
+    }
     /**
      * Display the specified resource.
      *
@@ -63,10 +70,14 @@ class ProdukController extends Controller
      * @param  \App\Produk  $produk
      * @return \Illuminate\Http\Response
      */
-    public function edit(Produk $produk)
-    {
-        //
-    }
+    public function edit($id)
+{
+	// mengambil data produk berdasarkan id yang dipilih
+	$produk = DB::table('produks')->where('id',$id)->get();
+	// passing data produk yang didapat ke view edit.blade.php
+	return view('edit',['produk' => $produk]);
+ 
+}
 
     /**
      * Update the specified resource in storage.
@@ -75,20 +86,16 @@ class ProdukController extends Controller
      * @param  \App\Produk  $produk
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id_produk)
-    {
-        //
-        $nama_produk = $request->nama_produk;
-        $harga_produk = $request->harga_produk;
-
-        $produk = Produk::find($id_produk);
-        $produk->nama_produk = $nama_produk;
-        $produk->harga_produk = $harga_produk;
-        $produk->save();
-
-        return "Data berhasil di update";
-
-    }
+    public function update(Request $request)
+{
+	// update data produk
+	DB::table('produks')->where('id',$request->id)->update([
+		'nama_produk' => $request->nama_produk,
+		'harga_produk' => $request->harga_produk,
+	]);
+	// alihkan halaman ke halaman pegawai
+	return redirect('/produk');
+}
 
     /**
      * Remove the specified resource from storage.
@@ -96,12 +103,14 @@ class ProdukController extends Controller
      * @param  \App\Produk  $produk
      * @return \Illuminate\Http\Response
      */
-    public function delete($id_produk)
+    public function delete($id)
     {
-        //
-        $produk = Produk::find($id_produk);
-        $produk->delete();
-
-        return "Data berhasil dihapus";
+       // menghapus data produk berdasarkan id yang dipilih
+	DB::table('produks')->where('id',$id)->delete();
+		
+	// alihkan halaman ke halaman produk
+	return redirect('/produk');
     }
+
+    
 }

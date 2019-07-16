@@ -20,3 +20,12 @@ Route::get('/produk', function () {
 });
 
 Route::get('/produk', 'ProdukController@index')->name ('produk');
+Route::resource('produk', 'ProdukController');
+
+Route::get('/add-product', function () {
+	return view('create');
+});
+
+Route::get('/produk/edit/{id}','ProdukController@edit');
+Route::post('/produk/update','ProdukController@update');
+Route::get('/produk/delete/{id}','ProdukController@delete');

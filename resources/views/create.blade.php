@@ -139,53 +139,43 @@
         </nav>
         <!-- End of Topbar -->
 
-        <!-- Begin Page Content -->
-        <div class="container-fluid">
-          <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800">Table Package</h1>
-
-          <!-- DataTales Example -->
-          <div class="card mb-3">
+        <div class="card mb-3">
           <div class="card-header">
-            <a href="/add-product"><i class="fas fa-plus"></i> Add New</a>
+            <a href="/produk"><i class="fas fa-arrow-left"></i> Back</a>
           </div>
           <div class="card-body">
-              <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                   <thead>
-                  <tr>
-                    <th>Code Products</th>
-                    <th>Products Name</th>
-                    <th>Price</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                @foreach($produk as $pr)
-                <tr>
-                    <td>{{ $pr->id }}</td>
-                    <td>{{ $pr->nama_produk }}</td>
-                    <td>{{ $pr->harga_produk }}</td>
-                
-                    <td width="250">
-                      <a href="/produk/edit/{{ $pr->id }}"
-                       class="btn btn-small"><i class="fas fa-edit"></i> Edit</a>
-                      <a 
-                       href="/produk/delete/{{ $pr->id }}" class="btn btn-small text-danger"><i class="fas fa-trash"></i> Delete</a>
-                    </td>                  
-                </tr>
-                @endforeach
-                </tbody>
-              </table>
+
+        <form method="post" action="{{ route('produk.store') }}">
+        @csrf
+              <input type="hidden" name="id_produk"  />
+
+              <div class="form-group">
+                <label for="nama_produk">Product Name*</label>
+                <input type="text" class="form-control" name="nama_produk"/>
+                <div class="invalid-feedback">
+                </div>
               </div>
-            </div>
+
+              <div class="form-group">
+                <label for="harga_produk">Price*</label>
+                <input type="number" class="form-control" name="harga_produk"/>
+                <div class="invalid-feedback">
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-success">Add product</button>
+            </form>
+
           </div>
+
+          <div class="card-footer small text-muted">
+            * required fields
+          </div>
+
 
         </div>
         <!-- /.container-fluid -->
 
-      </div>
-      <!-- End of Main Content -->
 
       <!-- Footer -->
       <footer class="sticky-footer bg-white">
