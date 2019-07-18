@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Produk;
 use Illuminate\Http\Request;
 use DB;
+use PDF;
 
 class ProdukController extends Controller
 {
@@ -13,6 +14,11 @@ class ProdukController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         //
@@ -112,5 +118,11 @@ class ProdukController extends Controller
 	return redirect('/produk');
     }
 
-    
+    public function cetak_pdf()
+    {
+    	$produk = Produk::all();
+ 
+    	$pdf = PDF::loadview('produk_pdf',['produk'=>$produk]);
+    	return $pdf->stream();
+    }
 }

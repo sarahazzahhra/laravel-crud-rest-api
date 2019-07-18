@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome_landing');
 });
 
 Route::get('/produk', function () {
@@ -29,3 +29,10 @@ Route::get('/add-product', function () {
 Route::get('/produk/edit/{id}','ProdukController@edit');
 Route::post('/produk/update','ProdukController@update');
 Route::get('/produk/delete/{id}','ProdukController@delete');
+Route::get('/produk', 'ProdukController@index');
+Route::get('/cetak_pdf', 'ProdukController@cetak_pdf');
+Auth::routes();
+
+Route::get('/home', function () {
+	return view('welcome');
+});
